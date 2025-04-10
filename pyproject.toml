@@ -1,0 +1,28 @@
+[project]
+name = "recipes-api"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "RomanTuras",email = "salden.com@gmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi[standard] (>=0.115.12,<0.116.0)",
+    "uvicorn[standard] (>=0.34.0,<0.35.0)",
+    "pydantic-settings (>=2.8.1,<3.0.0)",
+    "sqlalchemy (>=2.0.40,<3.0.0)",
+    "aiosqlite (>=0.21.0,<0.22.0)",
+    "greenlet (>=3.1.1,<4.0.0)"
+]
+
+[tool.poetry]
+packages = [{include = "recipes_api", from = "src"}]
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.11.4"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
