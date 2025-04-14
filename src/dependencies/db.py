@@ -1,4 +1,4 @@
-# app/db/session.py
+# src/db/session.py
 import contextlib
 
 from sqlalchemy.exc import SQLAlchemyError
@@ -9,7 +9,7 @@ from sqlalchemy.ext.asyncio import (
     AsyncSession,
 )
 
-from app.conf import get_settings
+from src.conf import get_settings
 
 
 class DatabaseSessionManager:

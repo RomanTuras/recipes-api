@@ -3,14 +3,14 @@ from pathlib import Path
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 BASE_DIR = Path(__file__).resolve().parent.parent  # -> table_recipes-api/
-DB_PATH = BASE_DIR / "app" / "db" / "cook.db"
+DB_PATH = BASE_DIR / "src" / "db" / "cook.db"
 
 
 class Settings(BaseSettings):
     TITLE: str = "Recipes API"
     VERSION: str = "0.1.0"
-    HOST: str = "127.0.0.1"
-    PORT: int = 9000
+    HOST: str = "0.0.0.0"
+    PORT: int = 80
     DEBUG: bool = True
     DATABASE_URI: str = f"sqlite+aiosqlite:///{DB_PATH}"
     ORIGINS: tuple = ("http://localhost:3000", "http://localhost:8080")

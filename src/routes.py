@@ -1,9 +1,9 @@
 from fastapi import APIRouter, FastAPI
 
-from app.api.root.views import router as root_router
-from app.api.table_recipes.views import router as table_recipes_router
-from app.api.table_main.views import router as table_main
-from app.api.table_sub_cat.views import router as table_sub_cat
+from src.api.root.views import router as root_router
+from src.api.table_recipes.views import router as table_recipes_router
+from src.api.table_main.views import router as table_main
+from src.api.table_sub_cat.views import router as table_sub_cat
 
 
 def register_routes(fastapi_app: FastAPI):

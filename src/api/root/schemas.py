@@ -1,4 +1,4 @@
-from app.schemas import BaseSchema
+from src.schemas import BaseSchema
 
 
 class HealthCheckSchema(BaseSchema):

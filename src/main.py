@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from app.conf import get_settings
+from src.conf import get_settings
 from pathlib import Path
 from fastapi import Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -9,7 +9,7 @@ from datetime import UTC, datetime
 from collections.abc import Callable
 
 
-from app.routes import register_routes
+from src.routes import register_routes
 
 settings = get_settings()
 
@@ -23,7 +23,8 @@ fastapi_app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="s
 # CORS middleware
 fastapi_app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.ORIGINS,
+    # allow_origins=settings.ORIGINS,
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],

@@ -1,17 +1,17 @@
-# app/models/table_recipes.py
+# src/models/table_recipes.py
 
-from sqlalchemy import Column, Integer, String, MetaData
-from sqlalchemy.orm import declarative_base
+from sqlalchemy import Column, Integer, String
+from domain.base import IDOrmModel
+from sqlalchemy.orm import declarative_base, Mapped, mapped_column
 
 Base = declarative_base()
-metadata_ = MetaData()
 
 class TableRecipe(Base):
     """Old database table_recipes table"""
 
     __tablename__ = "tableRecipe"
 
-    _id = Column(Integer, primary_key=True, index=True)
+    id: Mapped[int] = mapped_column(name="_id", primary_key=True)
     recipe_title = Column(String, nullable=False)
     recipe = Column(String, nullable=True)
     category_id = Column(Integer, nullable=True)
@@ -19,4 +19,3 @@ class TableRecipe(Base):
     sub_category_id = Column(Integer, nullable=True)
     image = Column(String, nullable=True)
 
-    metadata = metadata_

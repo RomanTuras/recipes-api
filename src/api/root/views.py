@@ -1,7 +1,7 @@
 from fastapi import APIRouter
 from starlette import status
 
-from app.api.root.schemas import HealthCheckSchema
+from src.api.root.schemas import HealthCheckSchema
 
 router = APIRouter()
 
