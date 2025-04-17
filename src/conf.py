@@ -13,7 +13,8 @@ class Settings(BaseSettings):
     PORT: int = 80
     DEBUG: bool = True
     DATABASE_URI: str = f"sqlite+aiosqlite:///{DB_PATH}"
-    ORIGINS: tuple = ("http://localhost:3000", "http://localhost:8080")
+    ORIGINS: tuple = ("http://127.0.0.1:80", "http://localhost:80")
+
 
     model_config = SettingsConfigDict(env_file=".env", env_file_encoding="utf-8")
 

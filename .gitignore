@@ -2,6 +2,9 @@
 .idea/
 .env
 data/
+src/ai_models/
+recipes.pkl
+recipe_index.faiss
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
