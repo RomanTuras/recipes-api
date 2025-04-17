@@ -5,7 +5,7 @@ from starlette.responses import JSONResponse
 from time import time
 from typing import Callable
 
-from conf import get_settings
+from .conf import get_settings
 
 
 class AuthenticationMiddleware(BaseHTTPMiddleware):
@@ -25,6 +25,9 @@ class AuthenticationMiddleware(BaseHTTPMiddleware):
             except Exception as exc:
                 # If token validation fails due to other exceptions, return a generic error response
                 return JSONResponse(content={"detail": f"Error: {str(exc)}"}, status_code=500)
+        else:
+            response = await call_next(request)
+            return response
 
 
 class ProcessTimeMiddleware(BaseHTTPMiddleware):
@@ -41,8 +44,8 @@ def register_middleware(fastapi_app: FastAPI):
     settings = get_settings()
     fastapi_app.add_middleware(
         CORSMiddleware,
-        allow_origins=settings.ORIGINS,
-        # allow_origins=["*"],
+        # allow_origins=settings.ORIGINS,
+        allow_origins=["*"],
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],

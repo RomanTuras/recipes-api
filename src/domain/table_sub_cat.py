@@ -3,7 +3,6 @@
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import declarative_base, Mapped, mapped_column
 
-from domain.base import IDOrmModel
 
 Base = declarative_base()
 

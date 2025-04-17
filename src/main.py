@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from middlewares import register_middleware
+from src.middlewares import register_middleware
 from src.conf import get_settings
 from pathlib import Path
 from fastapi.staticfiles import StaticFiles

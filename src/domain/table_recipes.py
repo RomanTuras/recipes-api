@@ -1,7 +1,6 @@
 # src/models/table_recipes.py
 
 from sqlalchemy import Column, Integer, String
-from domain.base import IDOrmModel
 from sqlalchemy.orm import declarative_base, Mapped, mapped_column
 
 Base = declarative_base()

@@ -3,8 +3,8 @@ from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 
-from domain.table_recipes import TableRecipe
-from domain.table_sub_cat import TableSubCat
+from src.domain.table_recipes import TableRecipe
+from src.domain.table_sub_cat import TableSubCat
 from src.dependencies.db import get_db
 from src.domain.table_main import TableMain
 from sqlalchemy import or_, and_

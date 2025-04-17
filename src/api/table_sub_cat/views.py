@@ -5,7 +5,7 @@ from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 
-from domain.table_main import TableMain
+from src.domain.table_main import TableMain
 from src.api.table_sub_cat.schemas import ResponseSubCatSchema
 from src.dependencies.db import get_db
 from src.domain.table_sub_cat import TableSubCat
