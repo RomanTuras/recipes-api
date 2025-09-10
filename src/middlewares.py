@@ -5,7 +5,6 @@ from starlette.responses import JSONResponse
 from time import time
 from typing import Callable
 
-from .conf import get_settings
 
 
 class AuthenticationMiddleware(BaseHTTPMiddleware):
@@ -15,16 +14,22 @@ class AuthenticationMiddleware(BaseHTTPMiddleware):
                 print(request.headers.get("Authorization"))
                 auth_header = request.headers.get("Authorization")
                 if not auth_header == "Bearer super_secret_token":
-                    return JSONResponse(status_code=401, content={"detail": "Unauthorized"})
+                    return JSONResponse(
+                        status_code=401, content={"detail": "Unauthorized"}
+                    )
 
                 response = await call_next(request)
                 return response
             except HTTPException as exc:
                 # If token validation fails due to HTTPException, return the error response
-                return JSONResponse(content={"detail": exc.detail}, status_code=exc.status_code)
+                return JSONResponse(
+                    content={"detail": exc.detail}, status_code=exc.status_code
+                )
             except Exception as exc:
                 # If token validation fails due to other exceptions, return a generic error response
-                return JSONResponse(content={"detail": f"Error: {str(exc)}"}, status_code=500)
+                return JSONResponse(
+                    content={"detail": f"Error: {str(exc)}"}, status_code=500
+                )
         else:
             response = await call_next(request)
             return response
@@ -41,7 +46,7 @@ class ProcessTimeMiddleware(BaseHTTPMiddleware):
 
 # CORS middleware
 def register_middleware(fastapi_app: FastAPI):
-    settings = get_settings()
+    # settings = get_settings()
     fastapi_app.add_middleware(
         CORSMiddleware,
         # allow_origins=settings.ORIGINS,

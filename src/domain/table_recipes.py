@@ -1,11 +1,12 @@
 # src/models/table_recipes.py
 
 from sqlalchemy import Column, Integer, String
-from sqlalchemy.orm import declarative_base, Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column
 
-Base = declarative_base()
+from src.domain.base import MinimalBase
 
-class TableRecipe(Base):
+
+class TableRecipe(MinimalBase):
     """Old database table_recipes table"""
 
     __tablename__ = "tableRecipe"
@@ -17,4 +18,3 @@ class TableRecipe(Base):
     make = Column(Integer, nullable=True)
     sub_category_id = Column(Integer, nullable=True)
     image = Column(String, nullable=True)
-

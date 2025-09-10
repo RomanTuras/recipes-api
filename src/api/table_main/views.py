@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, Query
+from fastapi import APIRouter, Depends
 from sqlalchemy import select, func
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
@@ -23,7 +23,7 @@ async def list_main_categories(
 ) -> list[MainCategoriesSchema]:
     # subquery from tableSubCat
     subquery_name = (
-        select(func.group_concat(TableSubCat.name, ', '))
+        select(func.group_concat(TableSubCat.name, ", "))
         .where(TableSubCat.parent_id == TableMain.id)
         .correlate(TableMain)
         .scalar_subquery()
@@ -36,28 +36,26 @@ async def list_main_categories(
         .join(
             TableSubCat,
             TableRecipe.sub_category_id == TableSubCat.id,
-            isouter=True  # do not skip if it don't have subcat
+            isouter=True,  # do not skip if it don't have subcat
         )
         .where(
             or_(
                 TableRecipe.category_id == TableMain.id,
                 and_(
                     TableRecipe.sub_category_id != -1,
-                    TableSubCat.parent_id == TableMain.id
-                )
+                    TableSubCat.parent_id == TableMain.id,
+                ),
             )
         )
         .correlate(TableMain)
         .scalar_subquery()
     )
 
-    stmt = (
-        select(
-            TableMain.id,
-            TableMain.category.label("name"),
-            subquery_name.label("subcategories"),
-            subquery_recipe_count.label("recipes_count"),
-        )
+    stmt = select(
+        TableMain.id,
+        TableMain.category.label("name"),
+        subquery_name.label("subcategories"),
+        subquery_recipe_count.label("recipes_count"),
     )
 
     result = await db.execute(stmt)

@@ -6,4 +6,4 @@ class BaseSchema(BaseModel):
 
     __abstract__ = True
 
-    model_config = ConfigDict(extra="forbid")  # 'allow', 'ignore', 'forbid'
+    model_config = ConfigDict(extra="forbid", from_attributes=True)  # 'allow', 'ignore', 'forbid'

@@ -1,12 +1,12 @@
 # src/models/table_main.py
 
-from sqlalchemy import Column, Integer, String
-from sqlalchemy.orm import declarative_base, Mapped, mapped_column
+from sqlalchemy import Column, String
+from sqlalchemy.orm import Mapped, mapped_column
 
-Base = declarative_base()
+from src.domain.base import MinimalBase
 
 
-class TableMain(Base):
+class TableMain(MinimalBase):
     """Old database main categories table"""
 
     __tablename__ = "tableMain"

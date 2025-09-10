@@ -1,13 +1,12 @@
 # app/models/table_sub_cat.py
 
 from sqlalchemy import Column, Integer, String
-from sqlalchemy.orm import declarative_base, Mapped, mapped_column
+from sqlalchemy.orm import Mapped, mapped_column
+
+from src.domain.base import MinimalBase
 
 
-Base = declarative_base()
-
-
-class TableSubCat(Base):
+class TableSubCat(MinimalBase):
     """Old database subcategories table"""
 
     __tablename__ = "tableSubCat"

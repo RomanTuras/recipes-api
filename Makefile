@@ -4,26 +4,29 @@
 	env \
 	test \
 	coverage \
+	req \
 	help
 
 env: ## Create environment
-	poetry install
+	uv sync
 
 run: ## Run project
-	poetry run python entry.py
+	uv run entry.py
 
 lint: ## Run linter
-	poetry run ruff format --config ./pyproject.toml . && poetry run ruff check --fix --config ./pyproject.toml .
+	uv run ruff format --config ./pyproject.toml . && uv run ruff check --fix --config ./pyproject.toml .
 
 mypy: ## Run mypy
-	poetry run mypy ./
+	uv run mypy ./
 
 test: ## Run test <filename>
-	poetry run pytest -v $(filter-out $@,$(MAKECMDGOALS)) -s
+	uv run pytest -v $(filter-out $@,$(MAKECMDGOALS)) -s
 
 coverage: ## Make tests coverage
-	poetry run pytest --cov=src tests/
+	uv run pytest --cov=src tests/
 
+req: ## Make Requirements.txt
+	uv pip compile pyproject.toml -o requirements.txt
 
 # Just help
 help: ## Display help screen

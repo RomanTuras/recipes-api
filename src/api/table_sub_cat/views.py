@@ -1,6 +1,4 @@
-from typing import Sequence
-
-from fastapi import APIRouter, Depends, Query, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
@@ -42,10 +40,9 @@ async def main_category(
     subcategories_raw = result.scalars().all()
     subcategories = [
         SubCatSchema(
-            id=subcategory.id,
-            name=subcategory.name,
-            parent_id=subcategory.parent_id
-        ) for subcategory in subcategories_raw
+            id=subcategory.id, name=subcategory.name, parent_id=subcategory.parent_id
+        )
+        for subcategory in subcategories_raw
     ]
 
     # Select recipes from main category
@@ -58,8 +55,13 @@ async def main_category(
             recipe_title=recipe.recipe_title,
             category_id=recipe.category_id,
             make=bool(recipe.make) if recipe.make is not None else False,
-            image=recipe.image or ""
-        ) for recipe in recipes_raw
+            image=recipe.image or "",
+        )
+        for recipe in recipes_raw
     ]
 
-    return ResponseSubCatSchema(subcategories=subcategories, recipes=recipes, main_category_name=main_category_name)
+    return ResponseSubCatSchema(
+        subcategories=subcategories,
+        recipes=recipes,
+        main_category_name=main_category_name,
+    )
