@@ -6,10 +6,16 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 
 from src.core.config import get_settings
 
+from src.core.app_logger import logger
+
 
 settings = get_settings()
 connection_string = str(settings.DATABASE_URL).replace("postgres", "postgresql+asyncpg")
 
+logger.info(f"--> The App is Started in {'local' if settings.IS_LOCAL_MODE else 'production'} mode!")
+
+if settings.IS_LOCAL_MODE is False:
+    connection_string = f"{connection_string}?sslmode=require"
 
 async_engine = create_async_engine(connection_string, pool_recycle=300)
 

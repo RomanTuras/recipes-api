@@ -8,14 +8,13 @@ from fastapi.staticfiles import StaticFiles
 
 from src.routes import register_routes
 
-settings = get_settings()
 
+settings = get_settings()
 
 BASE_DIR = Path(__file__).parent.parent
 
-app = FastAPI(title=settings.TITLE, version=settings.VERSION, lifespan=lifespan, debug=True)
+app = FastAPI(title=settings.TITLE, version=settings.VERSION, lifespan=lifespan)
 app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
-
 
 register_middleware(fastapi_app=app)
 register_routes(fastapi_app=app)

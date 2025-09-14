@@ -15,6 +15,7 @@ class Settings(BaseSettings):
     HOST: str = "0.0.0.0"
     PORT: int = 80
     DEBUG: bool = True
+    IS_LOCAL_MODE: bool = True
 
     DATABASE_URL: str | None = None
     DATABASE_URI: str = f"sqlite+aiosqlite:///{DB_PATH}"
