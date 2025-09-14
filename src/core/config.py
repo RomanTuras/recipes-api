@@ -12,7 +12,7 @@ DB_PATH = BASE_DIR / "db" / "cook.db"
 class Settings(BaseSettings):
     TITLE: str = "Recipes API V1"
     VERSION: str = "0.1.0"
-    HOST: str = "127.0.0.1"
+    HOST: str = "0.0.0.0"
     PORT: int = 80
     DEBUG: bool = True
 
