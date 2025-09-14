@@ -1,9 +1,9 @@
-# app/models/table_sub_cat.py
+# app/sqlite_models/table_sub_cat.py
 
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column
 
-from src.domain.base import MinimalBase
+from src.domain.sqlite_models.base import MinimalBase
 
 
 class TableSubCat(MinimalBase):
@@ -11,7 +11,6 @@ class TableSubCat(MinimalBase):
 
     __tablename__ = "tableSubCat"
 
-    # _id = Column(Integer, primary_key=True, index=True)
     id: Mapped[int] = mapped_column(name="_id", primary_key=True)
     name = Column(String, nullable=False)
     hierarchy = Column(Integer, nullable=True)

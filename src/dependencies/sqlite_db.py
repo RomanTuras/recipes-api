@@ -9,7 +9,7 @@ from sqlalchemy.ext.asyncio import (
     AsyncSession,
 )
 
-from src.conf import get_settings
+from src.core.config import get_settings
 
 
 class DatabaseSessionManager:

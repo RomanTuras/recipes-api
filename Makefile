@@ -11,7 +11,7 @@ env: ## Create environment
 	uv sync
 
 run: ## Run project
-	uv run entry.py
+	uv run main.py
 
 lint: ## Run linter
 	uv run ruff format --config ./pyproject.toml . && uv run ruff check --fix --config ./pyproject.toml .

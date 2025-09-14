@@ -1,9 +1,9 @@
-# src/models/table_recipes.py
+# src/sqlite_models/table_recipes.py
 
 from sqlalchemy import Column, Integer, String
 from sqlalchemy.orm import Mapped, mapped_column
 
-from src.domain.base import MinimalBase
+from src.domain.sqlite_models.base import MinimalBase
 
 
 class TableRecipe(MinimalBase):

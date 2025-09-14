@@ -6,7 +6,6 @@ from time import time
 from typing import Callable
 
 
-
 class AuthenticationMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next: Callable):
         if request.url.path.startswith("/api/v1/admin"):

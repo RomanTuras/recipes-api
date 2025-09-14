@@ -1,9 +1,9 @@
-# src/models/table_main.py
+# src/sqlite_models/table_main.py
 
 from sqlalchemy import Column, String
 from sqlalchemy.orm import Mapped, mapped_column
 
-from src.domain.base import MinimalBase
+from src.domain.sqlite_models.base import MinimalBase
 
 
 class TableMain(MinimalBase):
