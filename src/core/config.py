@@ -15,10 +15,16 @@ class Settings(BaseSettings):
     HOST: str = "0.0.0.0"
     PORT: int = 80
     DEBUG: bool = True
-    IS_LOCAL_MODE: bool = True
+    IS_LOCAL_MODE: bool = False
+
+    API_V1_PREFIX: str = "/api/v1"
 
     DATABASE_URL: str | None = None
     DATABASE_URI: str = f"sqlite+aiosqlite:///{DB_PATH}"
+
+    JWT_SECRET: str | None = None
+    JWT_ALGORITHM: str | None = None
+    JWT_EXPIRATION_SECONDS: float = 3600
 
     # CORS
     ORIGINS: tuple[str, ...] = ("http://127.0.0.1:80", "http://localhost:80")

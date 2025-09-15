@@ -12,4 +12,5 @@ class CategoryBase(BaseModel):
 class CategoryResponse(CategoryBase):
     id: int
 
+    # allows to create CategoryResponse directly from Category ORM model, expl: CategoryResponse.model_validate(Category)
     model_config = ConfigDict(from_attributes=True, str_strip_whitespace=True)

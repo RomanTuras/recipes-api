@@ -7,9 +7,9 @@ from fastapi.security import OAuth2PasswordBearer
 from sqlalchemy.ext.asyncio import AsyncSession
 from jose import JWTError, jwt
 
-from src.database.db import get_db
-from src.conf.config import settings
-from src.services.users import UserService
+from src.core.config import get_settings
+from src.dependencies.neon_db import get_session as get_pg_session
+from src.domain.services.user_service import UserService
 
 
 class Hash:
@@ -22,11 +22,12 @@ class Hash:
         return self.pwd_context.hash(password)
 
 
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/auth/login")
+settings = get_settings()
+oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{settings.API_V1_PREFIX}/auth/login")
 
 
-# define a function to generate a new access token
 async def create_access_token(data: dict, expires_delta: Optional[int] = None):
+    """generate a new access token"""
     to_encode = data.copy()
     if expires_delta:
         expire = datetime.now(UTC) + timedelta(seconds=expires_delta)
@@ -40,8 +41,9 @@ async def create_access_token(data: dict, expires_delta: Optional[int] = None):
 
 
 async def get_current_user(
-    token: str = Depends(oauth2_scheme), db: AsyncSession = Depends(get_db)
+    token: str = Depends(oauth2_scheme), db: AsyncSession = Depends(get_pg_session)
 ):
+    """Getting a current user by access token"""
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
@@ -66,6 +68,7 @@ async def get_current_user(
 
 
 async def get_email_from_token(token: str):
+    """Getting user email from token"""
     try:
         payload = jwt.decode(
             token, settings.JWT_SECRET, algorithms=[settings.JWT_ALGORITHM]
@@ -80,6 +83,7 @@ async def get_email_from_token(token: str):
 
 
 def create_email_token(data: dict):
+    """Creating email token"""
     to_encode = data.copy()
     expire = datetime.now(UTC) + timedelta(days=7)
     to_encode.update({"iat": datetime.now(UTC), "exp": expire})
