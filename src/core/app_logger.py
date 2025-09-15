@@ -13,7 +13,8 @@ ch.setFormatter(formatter)
 logger.addHandler(ch)
 
 BASE_DIR = Path(__file__).parent.parent
-fh = logging.FileHandler(BASE_DIR / "logs" / "recipes-api.log")
+# Only '/tmp' directory has write access, while using Vercel
+fh = logging.FileHandler(BASE_DIR / "tmp" / "recipes-api.log")
 fh.setLevel(logging.ERROR)
 fh.setFormatter(formatter)
 
