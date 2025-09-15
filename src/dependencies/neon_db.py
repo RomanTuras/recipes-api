@@ -16,12 +16,12 @@ logger.info(
     f"--> The App is Started in {'local' if settings.IS_LOCAL_MODE else 'production'} mode!"
 )
 
-# if settings.IS_LOCAL_MODE is False:
+if settings.IS_LOCAL_MODE is False:
+    connection_string = f"{connection_string}?ssl=true"
 #     connection_string = f"{connection_string}?sslmode=require"
 
 async_engine = create_async_engine(
     connection_string,
-    connect_args={"sslmode": "require"},
     pool_recycle=300,
 )
 
