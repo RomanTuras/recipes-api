@@ -8,8 +8,9 @@ from src.domain.schemas.neon.user import UserCreate, Token, RequestEmail, UserRe
 from src.domain.services.auth import Hash, create_access_token, get_email_from_token
 from src.domain.services.user_service import UserService
 
-router = APIRouter(prefix="/auth", tags=["auth"])
 from src.core.app_logger import logger
+
+router = APIRouter(prefix="/auth", tags=["auth"])
 
 
 # Register a new user
