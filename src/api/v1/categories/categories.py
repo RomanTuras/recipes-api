@@ -7,7 +7,6 @@ from src.dependencies.neon_db import get_session
 from src.domain.repository.neon.user_repository import UserRepository
 from src.domain.schemas.neon.category import CategoryResponse, CategoryBase
 from src.domain.services.category_service import CategoryService
-from src.domain.services.migrate_sqlite_to_neon import migrate_categories
 
 router = APIRouter(prefix="/category", tags=["category"])
 

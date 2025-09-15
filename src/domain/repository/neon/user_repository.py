@@ -1,10 +1,7 @@
-from typing import List
-
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlmodel import select
 
-from src.domain.neon_models import User, Category
-from src.domain.schemas.neon.category import CategoryResponse
+from src.domain.neon_models import User
 
 
 class UserRepository:

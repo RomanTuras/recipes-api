@@ -12,7 +12,9 @@ from src.core.app_logger import logger
 settings = get_settings()
 connection_string = str(settings.DATABASE_URL).replace("postgres", "postgresql+asyncpg")
 
-logger.info(f"--> The App is Started in {'local' if settings.IS_LOCAL_MODE else 'production'} mode!")
+logger.info(
+    f"--> The App is Started in {'local' if settings.IS_LOCAL_MODE else 'production'} mode!"
+)
 
 if settings.IS_LOCAL_MODE is False:
     connection_string = f"{connection_string}?sslmode=require"

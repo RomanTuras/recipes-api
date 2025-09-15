@@ -1,5 +1,9 @@
 # Recipes API for Recipes Organiser
 
+
+Before production change:
+`src/core/config -> IS_LOCAL_MODE: False`
+
 Link vercel to the project if needed
 `vercel link`
 
