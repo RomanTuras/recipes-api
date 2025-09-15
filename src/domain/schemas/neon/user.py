@@ -6,6 +6,7 @@ class UserResponse(BaseModel):
     username: str
     email: EmailStr
 
+    # allows to create UserResponse directly from User ORM model, expl: UserResponse.model_validate(User)
     model_config = ConfigDict(from_attributes=True, str_strip_whitespace=True)
 
 
