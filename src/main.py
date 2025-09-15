@@ -13,7 +13,7 @@ settings = get_settings()
 
 BASE_DIR = Path(__file__).parent.parent
 
-app = FastAPI(title=settings.TITLE, version=settings.VERSION, lifespan=lifespan)
+app = FastAPI(title=settings.TITLE, version=settings.VERSION, lifespan=lifespan, debug=True)
 app.mount("/static", StaticFiles(directory=BASE_DIR / "static"), name="static")
 
 register_middleware(fastapi_app=app)
