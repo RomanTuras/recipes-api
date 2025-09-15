@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     HOST: str = "0.0.0.0"
     PORT: int = 80
     DEBUG: bool = True
-    IS_LOCAL_MODE: bool = False
+    IS_LOCAL_MODE: bool = True
 
     API_V1_PREFIX: str = "/api/v1"
 

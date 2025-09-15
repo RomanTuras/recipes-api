@@ -31,8 +31,3 @@ class CategoryRepository:
         result = await self.session.exec(query)
         categories = result.all()
         return [CategoryResponse.model_validate(cat) for cat in categories]
-
-    # async def getuser_categories(self, user: User) -> List[CategoryResponse]:
-    #
-    #     result = await self.session.execute(query)
-    #     return result.scalars().all()

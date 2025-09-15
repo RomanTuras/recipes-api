@@ -39,7 +39,6 @@ class UserRepository:
         await self.session.refresh(user)
         return UserResponse.model_validate(user)
 
-
     async def confirmed_email(self, email: EmailStr) -> None:
         """Saving to DB that user email is completely confirmed"""
         user = await self.get_user_by_email(email)

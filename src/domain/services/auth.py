@@ -9,6 +9,7 @@ from jose import JWTError, jwt
 
 from src.core.config import get_settings
 from src.dependencies.neon_db import get_session as get_pg_session
+from src.domain.schemas.neon.user import UserResponse
 from src.domain.services.user_service import UserService
 
 
@@ -42,7 +43,7 @@ async def create_access_token(data: dict, expires_delta: Optional[int] = None):
 
 async def get_current_user(
     token: str = Depends(oauth2_scheme), db: AsyncSession = Depends(get_pg_session)
-):
+) -> UserResponse:
     """Getting a current user by access token"""
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
