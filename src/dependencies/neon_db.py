@@ -17,7 +17,7 @@ logger.info(
 )
 
 if settings.IS_LOCAL_MODE is False:
-    connection_string = f"{connection_string}?ssl=true"
+    connection_string = f"{connection_string}?ssl=verify-full"
 #     connection_string = f"{connection_string}?sslmode=require"
 
 async_engine = create_async_engine(
