@@ -1,6 +1,6 @@
 from contextlib import asynccontextmanager
 
-from sqlalchemy.ext.asyncio import create_async_engine
+from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 from sqlmodel import SQLModel
 from sqlmodel.ext.asyncio.session import AsyncSession
 
@@ -24,6 +24,7 @@ async_engine = create_async_engine(
     pool_recycle=300,
 )
 
+AsyncDBSession = async_sessionmaker(async_engine, expire_on_commit=False, class_=AsyncSession)
 
 async def create_db_and_tables():
     print("Creating tables...")
@@ -38,5 +39,5 @@ async def lifespan(app):
 
 
 async def get_session():
-    async with AsyncSession(async_engine) as session:
+    async with AsyncDBSession() as session:
         yield session

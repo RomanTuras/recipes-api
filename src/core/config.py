@@ -14,8 +14,9 @@ class Settings(BaseSettings):
     VERSION: str = "0.1.0"
     HOST: str = "0.0.0.0"
     PORT: int = 80
+    
     DEBUG: bool = True
-    IS_LOCAL_MODE: bool = True
+    IS_LOCAL_MODE: bool = False
 
     API_V1_PREFIX: str = "/api/v1"
 
@@ -24,7 +25,7 @@ class Settings(BaseSettings):
 
     JWT_SECRET: str | None = None
     JWT_ALGORITHM: str | None = None
-    JWT_EXPIRATION_SECONDS: float = 3600
+    JWT_EXPIRATION_SECONDS: float = 60*60*24*30
 
     # CORS
     ORIGINS: tuple[str, ...] = ("http://127.0.0.1:80", "http://localhost:80")
