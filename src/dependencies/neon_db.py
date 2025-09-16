@@ -22,6 +22,7 @@ if settings.IS_LOCAL_MODE is False:
 async_engine = create_async_engine(
     connection_string,
     pool_recycle=300,
+    echo=True
 )
 
 AsyncDBSession = async_sessionmaker(async_engine, expire_on_commit=False, class_=AsyncSession)
