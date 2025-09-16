@@ -46,5 +46,5 @@ class CategoryRepository:
         query = select(Category).order_by(desc(Category.id)).limit(1)
         result = await self.session.exec(query)
         last_category = result.first()
-        last_category_id = last_category.id
+        last_category_id = last_category.id if last_category is not None else 1
         return last_category_id
