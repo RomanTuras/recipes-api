@@ -1,17 +1,18 @@
 from typing import List
 
-from sqlmodel import select
+from sqlmodel import select, desc
 from sqlmodel.ext.asyncio.session import AsyncSession
 
-from src.domain.neon_models import User, Category
+from src.domain.neon_models import Category
 from src.domain.schemas.neon.category import CategoryBase, CategoryResponse
+from src.domain.schemas.neon.user import UserResponse
 
 
 class CategoryRepository:
     def __init__(self, session: AsyncSession):
         self.session = session
 
-    async def create_category(self, body: CategoryBase, user: User) -> Category:
+    async def create_category(self, body: CategoryBase, user: UserResponse) -> Category:
         """Creating a new category"""
         category = Category(**body.model_dump(exclude_unset=True), user=user)
         self.session.add(category)
@@ -19,7 +20,7 @@ class CategoryRepository:
         await self.session.refresh(category)
         return category
 
-    async def create_categories(self, body: List[CategoryBase], user: User):
+    async def create_categories(self, body: List[CategoryBase], user: UserResponse):
         """Creating categories using transaction"""
         try:
             async with self.session.begin():
@@ -38,3 +39,12 @@ class CategoryRepository:
         result = await self.session.exec(query)
         categories = result.all()
         return [CategoryResponse.model_validate(cat) for cat in categories]
+
+
+    async def get_categories_last_id(self) -> int:
+        """Getting the last ID from table categories"""
+        query = select(Category).order_by(desc(Category.id)).limit(1)
+        result = await self.session.exec(query)
+        last_category = result.first()
+        last_category_id = last_category.id
+        return last_category_id
