@@ -1,7 +1,7 @@
 from typing import List
 
 from fastapi import APIRouter, status, Depends
-from sqlalchemy.ext.asyncio import AsyncSession
+from sqlmodel.ext.asyncio.session import AsyncSession
 
 from src.core.config import get_settings
 from src.dependencies.neon_db import get_session

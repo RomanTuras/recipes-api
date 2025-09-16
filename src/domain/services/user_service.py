@@ -1,6 +1,7 @@
 from pydantic import EmailStr
 from sqlmodel.ext.asyncio.session import AsyncSession
 
+from src.domain.neon_models import User
 from src.domain.repository.neon.user_repository import UserRepository
 from src.domain.schemas.neon.user import UserResponse, UserCreate
 
@@ -9,7 +10,7 @@ class UserService:
     def __init__(self, session: AsyncSession):
         self.user_repository = UserRepository(session)
 
-    async def get_user_by_username(self, username: str) -> UserResponse:
+    async def get_user_by_username(self, username: str) -> User:
         return await self.user_repository.get_user_by_username(username)
 
     async def get_user_by_email(self, email: EmailStr) -> UserResponse:

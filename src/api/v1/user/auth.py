@@ -1,7 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status, BackgroundTasks, Request
-from sqlalchemy.ext.asyncio import AsyncSession
 from fastapi.security import OAuth2PasswordRequestForm
-
+from sqlmodel.ext.asyncio.session import AsyncSession
 
 from src.dependencies.neon_db import get_session
 from src.domain.schemas.neon.user import UserCreate, Token, RequestEmail, UserResponse
@@ -55,6 +54,7 @@ async def login_user(
     logger.info(form_data)
     user_service = UserService(session)
     user = await user_service.get_user_by_username(form_data.username)
+    print(user)
     if not user or not Hash().verify_password(form_data.password, user.hashed_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

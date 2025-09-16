@@ -1,6 +1,6 @@
 from pydantic import EmailStr
-from sqlalchemy.ext.asyncio import AsyncSession
 from sqlmodel import select
+from sqlmodel.ext.asyncio.session import AsyncSession
 
 from src.domain.neon_models import User
 from src.domain.schemas.neon.user import UserResponse, UserCreate
@@ -13,20 +13,20 @@ class UserRepository:
     async def get_user_by_id(self, user_id: int) -> UserResponse | None:
         """Getting user by ID"""
         query = select(User).where(User.id == user_id)
-        user = await self.session.execute(query)
-        return user.scalar_one_or_none()
+        user = await self.session.exec(query)
+        return user.one_or_none()
 
-    async def get_user_by_username(self, username: str) -> UserResponse | None:
+    async def get_user_by_username(self, username: str) -> User | None:
         """Getting user by username"""
         query = select(User).where(User.username == username)
-        user = await self.session.execute(query)
-        return user.scalar_one_or_none()
+        user = await self.session.exec(query)
+        return user.one_or_none()
 
     async def get_user_by_email(self, email: EmailStr) -> UserResponse | None:
         """Getting user by email"""
         query = select(User).where(User.email == email)
-        user = await self.session.execute(query)
-        return user.scalar_one_or_none()
+        user = await self.session.exec(query)
+        return user.one_or_none()
 
     async def create_user(self, body: UserCreate) -> UserResponse:
         """Creating a new User"""
