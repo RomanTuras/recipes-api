@@ -32,8 +32,8 @@ async def get_user_categories(
 @router.get("/migrate", status_code=status.HTTP_201_CREATED)
 async def copy_main_categories(
     user: UserResponse = Depends(get_current_user),
-    neon_session: AsyncSession = Depends(get_session),
-    sqlite_session: AsyncSession = Depends(get_db)
+    # neon_session: AsyncSession = Depends(get_session),
+    # sqlite_session: AsyncSession = Depends(get_db)
 ):
     logger.info("--> migrate runs")
     logger.info(user)
