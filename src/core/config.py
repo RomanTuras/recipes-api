@@ -14,7 +14,7 @@ class Settings(BaseSettings):
     VERSION: str = "0.1.0"
     HOST: str = "0.0.0.0"
     PORT: int = 80
-    
+
     DEBUG: bool = True
     IS_LOCAL_MODE: bool = False
 
