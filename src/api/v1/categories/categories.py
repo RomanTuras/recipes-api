@@ -12,9 +12,11 @@ from src.domain.schemas.neon.user import UserResponse
 from src.domain.services.auth import get_current_user
 from src.domain.services.category_service import CategoryService
 from src.domain.services.sqlite_service import SqliteService
+from src.core.app_logger import logger
 
 router = APIRouter(prefix="/categories", tags=["categories"])
 settings = get_settings()
+
 
 
 @router.get("/", response_model=List[CategoryResponse], status_code=status.HTTP_200_OK)
@@ -33,19 +35,21 @@ async def copy_main_categories(
     neon_session: AsyncSession = Depends(get_session),
     sqlite_session: AsyncSession = Depends(get_db)
 ):
-    sqlite_service = SqliteService(sqlite_session)
-    category_service = CategoryService(neon_session)
-    recipe_repository = RecipeRepository(neon_session)
-
-    categories = await sqlite_service.get_top_categories()
-    await category_service.create_categories(categories, user)
-
-    main_categories_recipes = await sqlite_service.get_sqlite_recipes(True)
-    await recipe_repository.create_recipes(main_categories_recipes, user)
-
-    last_category_id = await category_service.get_categories_last_id()
-    sub_categories = await sqlite_service.get_sub_categories(sub_category_id_offset=last_category_id)
-    await category_service.create_categories(sub_categories, user)
-
-    sub_categories_recipes = await sqlite_service.get_sqlite_recipes(is_main_category=False, sub_category_id_offset=last_category_id)
-    await recipe_repository.create_recipes(sub_categories_recipes, user)
+    logger.info("--> migrate runs")
+    logger.info(user)
+    # sqlite_service = SqliteService(sqlite_session)
+    # category_service = CategoryService(neon_session)
+    # recipe_repository = RecipeRepository(neon_session)
+    #
+    # categories = await sqlite_service.get_top_categories()
+    # await category_service.create_categories(categories, user)
+    #
+    # main_categories_recipes = await sqlite_service.get_sqlite_recipes(True)
+    # await recipe_repository.create_recipes(main_categories_recipes, user)
+    #
+    # last_category_id = await category_service.get_categories_last_id()
+    # sub_categories = await sqlite_service.get_sub_categories(sub_category_id_offset=last_category_id)
+    # await category_service.create_categories(sub_categories, user)
+    #
+    # sub_categories_recipes = await sqlite_service.get_sqlite_recipes(is_main_category=False, sub_category_id_offset=last_category_id)
+    # await recipe_repository.create_recipes(sub_categories_recipes, user)
