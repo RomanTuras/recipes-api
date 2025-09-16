@@ -6,8 +6,8 @@ from src.domain.schemas.neon.user import UserResponse, UserCreate
 
 
 class UserService:
-    def __init__(self, db: AsyncSession):
-        self.user_repository = UserRepository(db)
+    def __init__(self, session: AsyncSession):
+        self.user_repository = UserRepository(session)
 
     async def get_user_by_username(self, username: str) -> UserResponse:
         return await self.user_repository.get_user_by_username(username)

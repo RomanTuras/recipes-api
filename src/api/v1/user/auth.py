@@ -50,10 +50,10 @@ async def register_user(
 @router.post("/login", response_model=Token)
 async def login_user(
     form_data: OAuth2PasswordRequestForm = Depends(),
-    db: AsyncSession = Depends(get_session),
+    session: AsyncSession = Depends(get_session),
 ):
     logger.info(form_data)
-    user_service = UserService(db)
+    user_service = UserService(session)
     user = await user_service.get_user_by_username(form_data.username)
     if not user or not Hash().verify_password(form_data.password, user.hashed_password):
         raise HTTPException(
