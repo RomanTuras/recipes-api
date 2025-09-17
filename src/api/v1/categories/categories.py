@@ -28,6 +28,10 @@ async def get_user_categories(
     category_service = CategoryService(session)
     return await category_service.get_user_categories(user.id)
 
+@router.get("/q", status_code=status.HTTP_200_OK)
+async def get_q():
+    return {"msg":"_hello_morda!"}
+
 
 @router.get("/migrate", status_code=status.HTTP_201_CREATED)
 async def copy_main_categories(
