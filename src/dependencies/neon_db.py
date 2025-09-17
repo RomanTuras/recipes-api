@@ -22,8 +22,6 @@ if settings.IS_LOCAL_MODE is False:
 # Create async engine
 async_engine = create_async_engine(
     connection_string,
-    pool_pre_ping=True,   # перевіряє, чи з’єднання ще живе
-    pool_recycle=300,     # важливо для Neon (conns можуть дропатися)
     echo=True,
 )
 
