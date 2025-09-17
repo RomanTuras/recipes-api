@@ -1,6 +1,7 @@
 from pydantic import EmailStr
 from sqlmodel import select
-from sqlmodel.ext.asyncio.session import AsyncSession
+# from sqlmodel.ext.asyncio.session import AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.domain.neon_models import User
 from src.domain.schemas.neon.user import UserResponse, UserCreate
@@ -27,9 +28,8 @@ class UserRepository:
         #     created_at="2025-09-13 09:48:07.80428+00"
         # )
         query = select(User).where(User.username == username)
-        result = await self.session.exec(query)
-        user = result.one_or_none()
-        return user
+        result = await self.session.execute(query)
+        return result.scalar_one_or_none()
 
     async def get_user_by_email(self, email: EmailStr) -> UserResponse | None:
         """Getting user by email"""
