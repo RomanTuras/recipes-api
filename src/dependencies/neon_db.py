@@ -1,5 +1,6 @@
 from contextlib import asynccontextmanager
 
+from pygments.styles.dracula import yellow
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 from sqlmodel import SQLModel
 from sqlmodel.ext.asyncio.session import AsyncSession
@@ -40,5 +41,10 @@ async def lifespan(app):
 
 
 async def get_session():
-    async with AsyncDBSession() as session:
+    session = AsyncDBSession()
+    try:
         yield session
+    finally:
+        await session.close()
+    # async with AsyncDBSession() as session:
+    #     yield session
