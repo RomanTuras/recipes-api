@@ -1,6 +1,7 @@
 from contextlib import asynccontextmanager
 from typing import Any, AsyncGenerator
 
+from sqlalchemy import NullPool
 from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, AsyncSession
 from sqlalchemy.orm import declarative_base
@@ -23,6 +24,7 @@ if settings.IS_LOCAL_MODE is False:
 async_engine = create_async_engine(
     connection_string,
     echo=True,
+    poolclass=NullPool,
 )
 
 # Base class for models
