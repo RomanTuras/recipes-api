@@ -1,5 +1,6 @@
 from contextlib import asynccontextmanager
 
+from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 from sqlmodel import SQLModel
 from sqlmodel.ext.asyncio.session import AsyncSession
@@ -17,7 +18,7 @@ logger.info(
 )
 
 if settings.IS_LOCAL_MODE is False:
-    connection_string = f"{connection_string}?ssl=require"
+    connection_string = f"{connection_string}?ssl=require&channel_binding=require"
 
 async_engine = create_async_engine(connection_string, pool_recycle=300, echo=True)
 
@@ -39,10 +40,5 @@ async def lifespan(app):
 
 
 async def get_session():
-    session = AsyncDBSession()
-    try:
+    async with AsyncDBSession() as session:
         yield session
-    finally:
-        await session.close()
-    # async with AsyncDBSession() as session:
-    #     yield session
