@@ -3,7 +3,7 @@ from typing import List
 from sqlalchemy import select, desc
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.domain.neon_models import Category
+from src.domain.neon_models import Category, User
 from src.domain.schemas.neon.category import CategoryBase, CategoryResponse
 from src.domain.schemas.neon.user import UserResponse
 
@@ -22,7 +22,7 @@ class CategoryRepository:
         return category
 
 
-    async def create_categories(self, body: List[CategoryBase], user: UserResponse):
+    async def create_categories(self, body: List[CategoryBase], user: User):
         """Creating categories using transaction"""
         categories = [
             Category(**item.model_dump(exclude_unset=True), user=user)

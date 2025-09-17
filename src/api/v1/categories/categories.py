@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from src.core.config import get_settings
 from src.dependencies.neon_db import get_session
 from src.dependencies.sqlite_db import get_db
+from src.domain.neon_models import User
 from src.domain.repository.neon.recipe_repository import RecipeRepository
 from src.domain.schemas.neon.category import CategoryResponse
 from src.domain.schemas.neon.user import UserResponse
@@ -32,7 +33,7 @@ async def get_user_categories(
 
 @router.get("/migrate", status_code=status.HTTP_201_CREATED)
 async def copy_main_categories(
-    user: UserResponse = Depends(get_current_user),
+    user: User = Depends(get_current_user),
     neon_session: AsyncSession = Depends(get_session),
     sqlite_session: AsyncSession = Depends(get_db)
 ):
