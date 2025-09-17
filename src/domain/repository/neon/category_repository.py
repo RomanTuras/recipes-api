@@ -12,6 +12,7 @@ class CategoryRepository:
     def __init__(self, session: AsyncSession):
         self.session = session
 
+
     async def create_category(self, body: CategoryBase, user: UserResponse) -> Category:
         """Creating a new category"""
         category = Category(**body.model_dump(exclude_unset=True), user=user)
@@ -20,20 +21,17 @@ class CategoryRepository:
         await self.session.refresh(category)
         return category
 
+
     async def create_categories(self, body: List[CategoryBase], user: UserResponse):
         """Creating categories using transaction"""
-        # try:
-        #     async with self.session.begin():
-        for item in body:
-            category = Category(
-                **item.model_dump(exclude_unset=True), user=user
-            )
-            self.session.add(category)
+        categories = [
+            Category(**item.model_dump(exclude_unset=True), user=user)
+            for item in body
+        ]
+        self.session.add_all(categories)
         await self.session.commit()
         return f"Inserted {len(body)} categories"
-        # except Exception as e:
-        #     await self.session.rollback()
-        #     return f"Transaction failed, rolled back. Error: {e}"
+
 
     async def get_user_categories(self, user_id: int) -> List[CategoryResponse]:
         """Getting all user's categories"""
@@ -41,6 +39,7 @@ class CategoryRepository:
         result = await self.session.execute(query)
         categories = result.scalars().all()
         return [CategoryResponse.model_validate(cat) for cat in categories]
+
 
     async def get_categories_last_id(self) -> int:
         """Getting the last ID from table categories"""

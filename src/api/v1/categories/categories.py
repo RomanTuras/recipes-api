@@ -45,12 +45,12 @@ async def copy_main_categories(
     categories = await sqlite_service.get_top_categories()
     await category_service.create_categories(categories, user)
 
-    main_categories_recipes = await sqlite_service.get_sqlite_recipes(True)
-    await recipe_repository.create_recipes(main_categories_recipes, user)
-
-    last_category_id = await category_service.get_categories_last_id()
-    sub_categories = await sqlite_service.get_sub_categories(sub_category_id_offset=last_category_id)
-    await category_service.create_categories(sub_categories, user)
-
-    sub_categories_recipes = await sqlite_service.get_sqlite_recipes(is_main_category=False, sub_category_id_offset=last_category_id)
-    await recipe_repository.create_recipes(sub_categories_recipes, user)
+    # main_categories_recipes = await sqlite_service.get_sqlite_recipes(True)
+    # await recipe_repository.create_recipes(main_categories_recipes, user)
+    #
+    # last_category_id = await category_service.get_categories_last_id()
+    # sub_categories = await sqlite_service.get_sub_categories(sub_category_id_offset=last_category_id)
+    # await category_service.create_categories(sub_categories, user)
+    #
+    # sub_categories_recipes = await sqlite_service.get_sqlite_recipes(is_main_category=False, sub_category_id_offset=last_category_id)
+    # await recipe_repository.create_recipes(sub_categories_recipes, user)
