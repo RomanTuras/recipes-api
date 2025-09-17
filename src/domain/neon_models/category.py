@@ -1,19 +1,26 @@
-from typing import Optional, List, TYPE_CHECKING
-from sqlmodel import Field, SQLModel, Relationship
+from typing import List, Optional, TYPE_CHECKING
 
+from src.domain.neon_models.base import IDOrmModel
+
+from sqlalchemy import ForeignKey, String, Integer
+from sqlalchemy.orm import (
+    Mapped,
+    mapped_column,
+    relationship,
+)
 if TYPE_CHECKING:
-    from src.domain.neon_models.recipe import Recipe
-    from src.domain.neon_models.user import User
+    from src.domain.neon_models import Recipe, User
 
 
-class Category(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
-    title: str = Field(index=True)
-    parent_id: Optional[int] = Field(default=None, foreign_key="category.id")
+class Category(IDOrmModel):
+    __tablename__ = "category"
 
-    # foreign key to User (optional)
-    user_id: Optional[int] = Field(default=None, foreign_key="user.id")
+    local_id: Mapped[int] = mapped_column(Integer)
+    title: Mapped[str] = mapped_column(String(255), nullable=False)
+    parent_id: Mapped[Optional[int]] = mapped_column(ForeignKey("category.id"))
 
-    # use string annotations so names are not evaluated at runtime
-    recipes: List["Recipe"] = Relationship(back_populates="category")
-    user: Optional["User"] = Relationship(back_populates="categories")
+    # foreign key to User
+    user_id: Mapped[Optional[int]] = mapped_column(ForeignKey("user.id"))
+
+    recipes: Mapped[List["Recipe"]] = relationship(back_populates="category")
+    user: Mapped[Optional["User"]] = relationship(back_populates="categories")

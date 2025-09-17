@@ -1,8 +1,9 @@
-from typing import Optional, List, TYPE_CHECKING
+from typing import List, TYPE_CHECKING
+from sqlalchemy import String, Boolean, func
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+from datetime import datetime
 
-from sqlalchemy import Column, DateTime
-from sqlmodel import Field, SQLModel, Relationship
-from datetime import datetime, timezone
+from src.domain.neon_models.base import IDOrmModel
 
 if TYPE_CHECKING:
     from src.domain.neon_models.category import Category
@@ -10,18 +11,19 @@ if TYPE_CHECKING:
     from src.domain.neon_models.ingredient import Ingredient
 
 
-class User(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
-    username: str = Field(nullable=False)
-    email: str = Field(nullable=False, unique=True)
-    hashed_password: str = Field(nullable=False)
-    confirmed: bool = Field(default=False)
-    created_at: datetime = Field(
-        default_factory=lambda: datetime.now(timezone.utc),
-        sa_column=Column(DateTime(timezone=True)),
-    )
+class User(IDOrmModel):
+    __tablename__ = "user"
 
-    # relations
-    categories: List["Category"] = Relationship(back_populates="user")  # one-to-many
-    recipes: List["Recipe"] = Relationship(back_populates="user")  # one-to-many
-    ingredients: List["Ingredient"] = Relationship(back_populates="user")  # one-to-many
+    username: Mapped[str] = mapped_column(String(100), unique=True)
+    email: Mapped[str] = mapped_column(String(100), unique=True)
+    hashed_password: Mapped[str] = mapped_column(String)
+    confirmed: Mapped[bool] = mapped_column(Boolean, default=False)
+    created_at: Mapped[datetime] = mapped_column(nullable=False, default=func.now())
+    # created_at: Mapped[datetime] = mapped_column(
+    #     DateTime(timezone=True), default_factory=lambda: datetime.now(timezone.utc)
+    # )
+
+    # Relationships
+    categories: Mapped[List["Category"]] = relationship(back_populates="user")
+    recipes: Mapped[List["Recipe"]] = relationship(back_populates="user")
+    ingredients: Mapped[List["Ingredient"]] = relationship(back_populates="user")

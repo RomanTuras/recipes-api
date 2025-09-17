@@ -19,6 +19,8 @@ dependencies = [
     "sqlmodel>=0.0.24",
     "starlette>=0.47.3",
     "uvicorn[standard]>=0.35.0",
+    "alembic>=1.16.5",
+    "psycopg2-binary>=2.9.10",
 ]
 
 [dependency-groups]

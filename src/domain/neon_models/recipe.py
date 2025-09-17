@@ -1,26 +1,31 @@
 from typing import Optional, List, TYPE_CHECKING
-from sqlmodel import Field, SQLModel, Relationship
-from src.domain.neon_models.recipe_ingredient_link import RecipeIngredientLink
+from sqlalchemy import String, Boolean, ForeignKey
+from sqlalchemy.orm import Mapped, mapped_column, relationship
+
+from src.domain.neon_models import Category
+from src.domain.neon_models.base import IDOrmModel
+from src.domain.neon_models.recipe_ingredient_link import RecipeIngredientLink  # Ensure this link model is defined
 
 if TYPE_CHECKING:
-    from src.domain.neon_models.category import Category
     from src.domain.neon_models.ingredient import Ingredient
     from src.domain.neon_models.user import User
 
 
-class Recipe(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
-    title: str = Field(index=True, nullable=False)
-    text: str = Field(default=None, nullable=True)
-    image: str = Field(default=None, nullable=True)
-    is_favorite: bool = Field(default=False)
-    cook_it: bool = Field(default=False)
+class Recipe(IDOrmModel):
+    __tablename__ = "recipe"
 
-    user_id: Optional[int] = Field(default=None, foreign_key="user.id")  # FK
-    category_id: Optional[int] = Field(default=None, foreign_key="category.id")  # FK
+    title: Mapped[str] = mapped_column(String(255), index=True)
+    text: Mapped[Optional[str]] = mapped_column(String, nullable=True)
+    image: Mapped[Optional[str]] = mapped_column(String, nullable=True)
+    is_favorite: Mapped[bool] = mapped_column(Boolean, default=False)
+    cook_it: Mapped[bool] = mapped_column(Boolean, default=False)
 
-    category: Optional["Category"] = Relationship(back_populates="recipes")
-    user: Optional["User"] = Relationship(back_populates="recipes")
-    ingredients: List["Ingredient"] = Relationship(
-        back_populates="recipes", link_model=RecipeIngredientLink
+    user_id: Mapped[Optional[int]] = mapped_column(ForeignKey("user.id"), nullable=True)
+    category_id: Mapped[Optional[int]] = mapped_column(ForeignKey("category.id"), nullable=True)
+
+    # Relationships
+    category: Mapped[Optional["Category"]] = relationship(back_populates="recipes")
+    user: Mapped[Optional["User"]] = relationship(back_populates="recipes")
+    ingredients: Mapped[List["Ingredient"]] = relationship(
+        secondary=RecipeIngredientLink.__table__, back_populates="recipes"
     )

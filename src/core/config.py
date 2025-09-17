@@ -21,6 +21,7 @@ class Settings(BaseSettings):
     API_V1_PREFIX: str = "/api/v1"
 
     DATABASE_URL: str | None = None
+    DATABASE_DRIVER: str | None = None
     DATABASE_URI: str = f"sqlite+aiosqlite:///{DB_PATH}"
 
     JWT_SECRET: str | None = None
