@@ -13,12 +13,13 @@ class RecipeRepository:
 
     async def create_recipes(self, body: List[RecipeBase], user: UserResponse):
         """Creating recipes using transaction"""
-        try:
-            async with self.session.begin():
-                for item in body:
-                    recipe = Recipe(**item.model_dump(exclude_unset=True), user=user)
-                    self.session.add(recipe)
-                return f"Inserted {len(body)} recipes"
-        except Exception as e:
-            await self.session.rollback()
-            return f"Transaction failed, rolled back. Error: {e}"
+        # try:
+        #     async with self.session.begin():
+        for item in body:
+            recipe = Recipe(**item.model_dump(exclude_unset=True), user=user)
+            self.session.add(recipe)
+        await self.session.commit()
+        return f"Inserted {len(body)} recipes"
+        # except Exception as e:
+        #     await self.session.rollback()
+        #     return f"Transaction failed, rolled back. Error: {e}"

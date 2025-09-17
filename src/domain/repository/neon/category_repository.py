@@ -22,17 +22,18 @@ class CategoryRepository:
 
     async def create_categories(self, body: List[CategoryBase], user: UserResponse):
         """Creating categories using transaction"""
-        try:
-            async with self.session.begin():
-                for item in body:
-                    category = Category(
-                        **item.model_dump(exclude_unset=True), user=user
-                    )
-                    self.session.add(category)
-                return f"Inserted {len(body)} categories"
-        except Exception as e:
-            await self.session.rollback()
-            return f"Transaction failed, rolled back. Error: {e}"
+        # try:
+        #     async with self.session.begin():
+        for item in body:
+            category = Category(
+                **item.model_dump(exclude_unset=True), user=user
+            )
+            self.session.add(category)
+        await self.session.commit()
+        return f"Inserted {len(body)} categories"
+        # except Exception as e:
+        #     await self.session.rollback()
+        #     return f"Transaction failed, rolled back. Error: {e}"
 
     async def get_user_categories(self, user_id: int) -> List[CategoryResponse]:
         """Getting all user's categories"""
