@@ -1,6 +1,8 @@
 from typing import List
-from sqlmodel import select
-from sqlmodel.ext.asyncio.session import AsyncSession
+
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from src.domain.schemas.neon.category import CategoryBase
 from src.domain.schemas.neon.recipe import RecipeBase
 from src.domain.sqlite_models.table_main import TableMain
@@ -20,8 +22,8 @@ class SqliteRepository:
             if is_main_category
             else TableRecipe.sub_category_id > 0
         )
-        result = await self.session.exec(query)
-        rows = result.all()
+        result = await self.session.execute(query)
+        rows = result.scalars().all()
 
         print(
             f"Found {len(rows)} recipes in {'main' if is_main_category else 'sub'} categories"
@@ -46,8 +48,8 @@ class SqliteRepository:
         return recipes
 
     async def get_top_categories(self) -> List[CategoryBase]:
-        result = await self.session.exec(select(TableMain))
-        rows = result.all()
+        result = await self.session.execute(select(TableMain))
+        rows = result.scalars().all()
 
         print(f"Found {len(rows)} categories in sqlite")
 
@@ -67,8 +69,8 @@ class SqliteRepository:
     async def get_sub_categories(
         self, sub_category_id_offset: int
     ) -> List[CategoryBase]:
-        result = await self.session.exec(select(TableSubCat))
-        rows = result.all()
+        result = await self.session.execute(select(TableSubCat))
+        rows = result.scalars().all()
 
         print(f"Found {len(rows)} subcategories in sqlite")
 

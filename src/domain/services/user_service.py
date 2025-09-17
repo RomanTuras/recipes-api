@@ -1,5 +1,5 @@
 from pydantic import EmailStr
-# from sqlmodel.ext.asyncio.session import AsyncSession
+
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.domain.neon_models import User

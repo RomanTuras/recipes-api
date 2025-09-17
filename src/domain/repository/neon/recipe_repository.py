@@ -1,6 +1,6 @@
 from typing import List
 
-from sqlmodel.ext.asyncio.session import AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.domain.neon_models import Recipe
 from src.domain.schemas.neon.recipe import RecipeBase

@@ -1,6 +1,6 @@
 from typing import List
 
-from sqlmodel.ext.asyncio.session import AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.domain.repository.sqlite_repository import SqliteRepository
 from src.domain.schemas.neon.category import CategoryBase

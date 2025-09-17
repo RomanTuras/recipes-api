@@ -1,7 +1,7 @@
 from typing import List
 
-from sqlmodel import select, desc
-from sqlmodel.ext.asyncio.session import AsyncSession
+from sqlalchemy import select, desc
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.domain.neon_models import Category
 from src.domain.schemas.neon.category import CategoryBase, CategoryResponse
@@ -37,14 +37,14 @@ class CategoryRepository:
     async def get_user_categories(self, user_id: int) -> List[CategoryResponse]:
         """Getting all user's categories"""
         query = select(Category).where(Category.user_id == user_id)
-        result = await self.session.exec(query)
-        categories = result.all()
+        result = await self.session.execute(query)
+        categories = result.scalars().all()
         return [CategoryResponse.model_validate(cat) for cat in categories]
 
     async def get_categories_last_id(self) -> int:
         """Getting the last ID from table categories"""
         query = select(Category).order_by(desc(Category.id)).limit(1)
-        result = await self.session.exec(query)
-        last_category = result.first()
+        result = await self.session.execute(query)
+        last_category = result.scalar_one_or_none()
         last_category_id = last_category.id if last_category is not None else 1
         return last_category_id
