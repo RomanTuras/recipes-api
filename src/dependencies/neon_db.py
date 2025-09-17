@@ -1,6 +1,5 @@
 from contextlib import asynccontextmanager
 
-from pygments.styles.dracula import yellow
 from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker
 from sqlmodel import SQLModel
 from sqlmodel.ext.asyncio.session import AsyncSession
@@ -20,13 +19,12 @@ logger.info(
 if settings.IS_LOCAL_MODE is False:
     connection_string = f"{connection_string}?ssl=require"
 
-async_engine = create_async_engine(
-    connection_string,
-    pool_recycle=300,
-    echo=True
+async_engine = create_async_engine(connection_string, pool_recycle=300, echo=True)
+
+AsyncDBSession = async_sessionmaker(
+    async_engine, expire_on_commit=False, class_=AsyncSession
 )
 
-AsyncDBSession = async_sessionmaker(async_engine, expire_on_commit=False, class_=AsyncSession)
 
 async def create_db_and_tables():
     print("Creating tables...")

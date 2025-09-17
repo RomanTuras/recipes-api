@@ -25,13 +25,14 @@ class CategoryRepository:
         try:
             async with self.session.begin():
                 for item in body:
-                    category = Category(**item.model_dump(exclude_unset=True), user=user)
+                    category = Category(
+                        **item.model_dump(exclude_unset=True), user=user
+                    )
                     self.session.add(category)
                 return f"Inserted {len(body)} categories"
         except Exception as e:
             await self.session.rollback()
             return f"Transaction failed, rolled back. Error: {e}"
-
 
     async def get_user_categories(self, user_id: int) -> List[CategoryResponse]:
         """Getting all user's categories"""
@@ -39,7 +40,6 @@ class CategoryRepository:
         result = await self.session.exec(query)
         categories = result.all()
         return [CategoryResponse.model_validate(cat) for cat in categories]
-
 
     async def get_categories_last_id(self) -> int:
         """Getting the last ID from table categories"""

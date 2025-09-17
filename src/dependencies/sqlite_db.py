@@ -12,9 +12,7 @@ from src.core.config import get_settings
 class DatabaseSessionManager:
     def __init__(self, url: str) -> None:
         self._url = url
-        self._engine: AsyncEngine = create_async_engine(
-            self._url, echo=False
-        )
+        self._engine: AsyncEngine = create_async_engine(self._url, echo=False)
         self._session_maker: async_sessionmaker[AsyncSession] = async_sessionmaker(
             bind=self._engine,
             class_=AsyncSession,
@@ -43,13 +41,6 @@ async def get_db() -> AsyncGenerator[AsyncSession, None]:
     sessionmanager = DatabaseSessionManager(settings.DATABASE_URI)
     async with sessionmanager.session() as session:
         yield session
-
-
-
-
-
-
-
 
 
 # # src/db/session.py

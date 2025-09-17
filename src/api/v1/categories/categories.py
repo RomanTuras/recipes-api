@@ -5,18 +5,14 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 
 from src.core.config import get_settings
 from src.dependencies.neon_db import get_session
-from src.dependencies.sqlite_db import get_db
-from src.domain.repository.neon.recipe_repository import RecipeRepository
 from src.domain.schemas.neon.category import CategoryResponse
 from src.domain.schemas.neon.user import UserResponse
 from src.domain.services.auth import get_current_user
 from src.domain.services.category_service import CategoryService
-from src.domain.services.sqlite_service import SqliteService
 from src.core.app_logger import logger
 
 router = APIRouter(prefix="/categories", tags=["categories"])
 settings = get_settings()
-
 
 
 @router.get("/", response_model=List[CategoryResponse], status_code=status.HTTP_200_OK)
@@ -28,9 +24,10 @@ async def get_user_categories(
     category_service = CategoryService(session)
     return await category_service.get_user_categories(user.id)
 
+
 @router.get("/q", status_code=status.HTTP_200_OK)
-async def get_q():
-    return {"msg":"_hello_morda!"}
+async def get_q(user: UserResponse = Depends(get_current_user)):
+    return {"msg": "_hello_morda!"}
 
 
 @router.get("/migrate", status_code=status.HTTP_201_CREATED)

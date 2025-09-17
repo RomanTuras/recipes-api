@@ -25,10 +25,15 @@ class Settings(BaseSettings):
 
     JWT_SECRET: str | None = None
     JWT_ALGORITHM: str | None = None
-    JWT_EXPIRATION_SECONDS: float = 60*60*24*30
+    JWT_EXPIRATION_SECONDS: float = 60 * 60 * 24 * 30
 
     # CORS
-    ORIGINS: tuple[str, ...] = ("http://127.0.0.1:80", "http://localhost:80", "https://127.0.0.1:80", "https://localhost:80")
+    ORIGINS: tuple[str, ...] = (
+        "http://127.0.0.1:80",
+        "http://localhost:80",
+        "https://127.0.0.1:80",
+        "https://localhost:80",
+    )
 
     model_config = SettingsConfigDict(
         env_file=".env",

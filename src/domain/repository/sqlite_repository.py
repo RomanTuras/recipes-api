@@ -12,9 +12,14 @@ class SqliteRepository:
     def __init__(self, session: AsyncSession):
         self.session = session
 
-    async def get_sqlite_recipes(self, is_main_category: bool, sub_category_id_offset: int = 0) -> List[RecipeBase]:
+    async def get_sqlite_recipes(
+        self, is_main_category: bool, sub_category_id_offset: int = 0
+    ) -> List[RecipeBase]:
         query = select(TableRecipe).where(
-            TableRecipe.category_id > 0 if is_main_category else TableRecipe.sub_category_id > 0)
+            TableRecipe.category_id > 0
+            if is_main_category
+            else TableRecipe.sub_category_id > 0
+        )
         result = await self.session.exec(query)
         rows = result.all()
 
@@ -59,7 +64,9 @@ class SqliteRepository:
 
         return categories
 
-    async def get_sub_categories(self, sub_category_id_offset: int) -> List[CategoryBase]:
+    async def get_sub_categories(
+        self, sub_category_id_offset: int
+    ) -> List[CategoryBase]:
         result = await self.session.exec(select(TableSubCat))
         rows = result.all()
 
