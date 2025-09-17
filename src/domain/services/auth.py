@@ -42,7 +42,7 @@ async def create_access_token(data: dict, expires_delta: Optional[int] = None):
 
 
 async def get_current_user(
-    token: str = Depends(oauth2_scheme), db: AsyncSession = Depends(get_session)
+    token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)
 ) -> UserResponse:
     """Getting a current user by access token"""
     credentials_exception = HTTPException(
@@ -61,7 +61,7 @@ async def get_current_user(
             raise credentials_exception
     except JWTError:
         raise credentials_exception
-    user_service = UserService(db)
+    user_service = UserService(session)
     user = await user_service.get_user_by_username(username)
     if user is None:
         raise credentials_exception
