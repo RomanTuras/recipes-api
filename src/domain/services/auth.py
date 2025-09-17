@@ -10,6 +10,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.core.config import get_settings
 from src.dependencies.neon_db import get_session
+from src.domain.neon_models import User
 from src.domain.schemas.neon.user import UserResponse
 from src.domain.services.user_service import UserService
 
@@ -44,7 +45,7 @@ async def create_access_token(data: dict, expires_delta: Optional[int] = None):
 
 async def get_current_user(
     token: str = Depends(oauth2_scheme), session: AsyncSession = Depends(get_session)
-) -> UserResponse:
+) -> User:
     """Getting a current user by access token"""
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
@@ -66,7 +67,7 @@ async def get_current_user(
     user = await user_service.get_user_by_username(username)
     if user is None:
         raise credentials_exception
-    return UserResponse.model_validate(user)
+    return user
 
 
 async def get_email_from_token(token: str):

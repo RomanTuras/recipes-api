@@ -6,7 +6,6 @@ class CategoryBase(BaseModel):
     id: Optional[int] = None
     title: str
     parent_id: Optional[int] = None
-    local_id: Optional[int] = None
     user_id: Optional[int] = None
 
 

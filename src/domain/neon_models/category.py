@@ -15,7 +15,6 @@ if TYPE_CHECKING:
 class Category(IDOrmModel):
     __tablename__ = "category"
 
-    local_id: Mapped[int] = mapped_column(Integer)
     title: Mapped[str] = mapped_column(String(255), nullable=False)
     parent_id: Mapped[Optional[int]] = mapped_column(ForeignKey("category.id"))
 

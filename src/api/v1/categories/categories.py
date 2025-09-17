@@ -10,7 +10,6 @@ from src.dependencies.sqlite_db import get_db
 from src.domain.neon_models import User
 from src.domain.repository.neon.recipe_repository import RecipeRepository
 from src.domain.schemas.neon.category import CategoryResponse
-from src.domain.schemas.neon.user import UserResponse
 from src.domain.services.auth import get_current_user
 from src.domain.services.category_service import CategoryService
 from src.core.app_logger import logger
@@ -22,7 +21,7 @@ settings = get_settings()
 
 @router.get("/", response_model=List[CategoryResponse], status_code=status.HTTP_200_OK)
 async def get_user_categories(
-    user: UserResponse = Depends(get_current_user),
+    user: User = Depends(get_current_user),
     session: AsyncSession = Depends(get_session),
 ):
     """Getting all user's categories"""
@@ -46,12 +45,12 @@ async def copy_main_categories(
     categories = await sqlite_service.get_top_categories()
     await category_service.create_categories(categories, user)
 
-    # main_categories_recipes = await sqlite_service.get_sqlite_recipes(True)
-    # await recipe_repository.create_recipes(main_categories_recipes, user)
-    #
-    # last_category_id = await category_service.get_categories_last_id()
-    # sub_categories = await sqlite_service.get_sub_categories(sub_category_id_offset=last_category_id)
-    # await category_service.create_categories(sub_categories, user)
-    #
-    # sub_categories_recipes = await sqlite_service.get_sqlite_recipes(is_main_category=False, sub_category_id_offset=last_category_id)
-    # await recipe_repository.create_recipes(sub_categories_recipes, user)
+    main_categories_recipes = await sqlite_service.get_sqlite_recipes(True)
+    await recipe_repository.create_recipes(main_categories_recipes, user)
+
+    last_category_id = await category_service.get_categories_last_id()
+    sub_categories = await sqlite_service.get_sub_categories(sub_category_id_offset=last_category_id)
+    await category_service.create_categories(sub_categories, user)
+
+    sub_categories_recipes = await sqlite_service.get_sqlite_recipes(is_main_category=False, sub_category_id_offset=last_category_id)
+    await recipe_repository.create_recipes(sub_categories_recipes, user)
