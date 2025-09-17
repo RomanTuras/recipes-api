@@ -5,7 +5,8 @@ from fastapi import Depends, HTTPException, status
 from passlib.context import CryptContext
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
-from sqlmodel.ext.asyncio.session import AsyncSession
+# from sqlmodel.ext.asyncio.session import AsyncSession
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.core.config import get_settings
 from src.dependencies.neon_db import get_session
@@ -65,7 +66,7 @@ async def get_current_user(
     user = await user_service.get_user_by_username(username)
     if user is None:
         raise credentials_exception
-    return user
+    return UserResponse.model_validate(user)
 
 
 async def get_email_from_token(token: str):
