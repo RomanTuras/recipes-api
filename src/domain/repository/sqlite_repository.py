@@ -17,6 +17,7 @@ class SqliteRepository:
     async def get_sqlite_recipes(
         self, is_main_category: bool, sub_category_id_offset: int = 0
     ) -> List[RecipeBase]:
+        """Getting recipes from main or subcategory, add id_offset"""
         query = select(TableRecipe).where(
             TableRecipe.category_id > 0
             if is_main_category

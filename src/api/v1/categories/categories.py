@@ -35,8 +35,8 @@ async def copy_main_categories(
     neon_session: AsyncSession = Depends(get_session),
     sqlite_session: AsyncSession = Depends(get_db),
 ):
+    """Seeding a test data to the Neon DB"""
     logger.info("--> migrate runs")
-    logger.info(user)
     sqlite_service = SqliteService(sqlite_session)
     category_service = CategoryService(neon_session)
     recipe_repository = RecipeRepository(neon_session)

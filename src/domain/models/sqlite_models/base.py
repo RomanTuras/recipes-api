@@ -5,6 +5,7 @@ metadata_ = MetaData()
 
 
 class MinimalBase(DeclarativeBase):
+    """Sqlite DB models"""
     __abstract__ = True
     metadata = metadata_
 

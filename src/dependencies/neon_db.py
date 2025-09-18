@@ -34,17 +34,12 @@ AsyncDBSession = async_sessionmaker(
 )
 
 
-# async def create_db_and_tables():
-#     """Run migrations or create tables (use only for quick start / dev mode)."""
-#     async with async_engine.begin() as conn:
-#         print("Create tables...")
-#         await conn.run_sync(Base.metadata.create_all)
-
-
 @asynccontextmanager
 async def lifespan(app):
-    # await create_db_and_tables()
+    # Lifecycle Scaffold:
+    # Do something before starting the app (!once)
     yield
+    # Do something before the app will shut down (!once)
 
 
 # Dependency for FastAPI

@@ -1,3 +1,5 @@
+# !!! Logs to file - is not working on Vercel !!!
+
 import logging
 
 logger = logging.getLogger("recipe-api")
@@ -10,5 +12,3 @@ formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
 
 ch.setFormatter(formatter)
 logger.addHandler(ch)
-
-# !!! Logs to file - is not working on Vercel !!!
