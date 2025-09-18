@@ -1,14 +1,13 @@
 from sqlalchemy import Integer, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
-from src.domain.models.neon_models.base import MinimalBase
+from src.domain.models.neon_models.base import IDOrmModel
 
 
-class RecipeIngredientLink(MinimalBase):
+class RecipeIngredientLink(IDOrmModel):
+    """RecipeIngredientLink table, `local_id` - incoming from remote device"""
     __tablename__ = "recipe_ingredient_link"
 
-    recipe_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey("recipe.id"), primary_key=True
-    )
-    ingredient_id: Mapped[int] = mapped_column(
-        Integer, ForeignKey("ingredient.id"), primary_key=True
-    )
+    recipe_local_id: Mapped[int] = mapped_column(Integer)
+    ingredient_local_id: Mapped[int] = mapped_column(Integer)
+
+    user_id: Mapped[int] = mapped_column(Integer, ForeignKey("user.id"))

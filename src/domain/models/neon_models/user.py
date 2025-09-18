@@ -6,10 +6,11 @@ from src.domain.models.neon_models.base import IDOrmModel
 
 
 class User(IDOrmModel):
+    """User table"""
     __tablename__ = "user"
 
-    username: Mapped[str] = mapped_column(String(100), unique=True)
-    email: Mapped[str] = mapped_column(String(100), unique=True)
+    username: Mapped[str] = mapped_column(String(100), unique=True, index=True)
+    email: Mapped[str] = mapped_column(String(100), unique=True, index=True)
     hashed_password: Mapped[str] = mapped_column(String)
     confirmed: Mapped[bool] = mapped_column(Boolean, default=False)
     created_at: Mapped[datetime] = mapped_column(nullable=False, default=func.now())

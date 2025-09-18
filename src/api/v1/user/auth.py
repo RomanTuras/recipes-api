@@ -12,7 +12,6 @@ from src.core.app_logger import logger
 router = APIRouter(prefix="/auth", tags=["auth"])
 
 
-# Register a new user
 @router.post(
     "/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED
 )
@@ -22,6 +21,7 @@ async def register_user(
     request: Request,
     db: AsyncSession = Depends(get_session),
 ):
+    """Register a new User"""
     user_service = UserService(db)
 
     email_user = await user_service.get_user_by_email(user_data.email)
@@ -45,12 +45,13 @@ async def register_user(
     return new_user
 
 
-# User Login
+
 @router.post("/login", response_model=Token)
 async def login_user(
     form_data: OAuth2PasswordRequestForm = Depends(),
     session: AsyncSession = Depends(get_session),
 ):
+    """User login"""
     user_service = UserService(session)
     user = await user_service.get_user_by_username(form_data.username)
     if not user or not Hash().verify_password(form_data.password, user.hashed_password):
@@ -70,6 +71,7 @@ async def login_user(
 
 @router.get("/confirmed_email/{token}")
 async def confirmed_email(token: str, db: AsyncSession = Depends(get_session)):
+    """Confirmed user's email"""
     email = await get_email_from_token(token)
     user_service = UserService(db)
     user = await user_service.get_user_by_email(email)
@@ -90,6 +92,7 @@ async def request_email(
     request: Request,
     db: AsyncSession = Depends(get_session),
 ):
+    """Requesting additional link for email confirmation"""
     user_service = UserService(db)
     user = await user_service.get_user_by_email(body.email)
 
