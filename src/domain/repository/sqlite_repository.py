@@ -34,12 +34,12 @@ class SqliteRepository:
         for row in rows:
             recipes.append(
                 RecipeBase(
-                    id=row.id,
+                    local_id=row.id,
                     title=row.recipe_title.strip(),
                     text=row.recipe,
                     image=row.image,
                     is_favorite=True if row.make == 1 else False,
-                    category_id=row.category_id
+                    category_local_id=row.category_id
                     if is_main_category
                     else row.sub_category_id + sub_category_id_offset,
                     user_id=1,
@@ -58,9 +58,9 @@ class SqliteRepository:
         for row in rows:
             categories.append(
                 CategoryBase(
-                    id=row.id,
+                    local_id=row.id,
                     title=row.category.strip(),
-                    parent_id=None,
+                    parent_local_id=None,
                     user_id=1,
                 )
             )
@@ -79,9 +79,9 @@ class SqliteRepository:
         for row in rows:
             categories.append(
                 CategoryBase(
-                    id=row.id + sub_category_id_offset,
+                    local_id=row.id + sub_category_id_offset,
                     title=row.name.strip(),
-                    parent_id=row.parent_id,
+                    parent_local_id=row.parent_id,
                     user_id=1,
                 )
             )
