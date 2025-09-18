@@ -51,10 +51,8 @@ async def login_user(
     form_data: OAuth2PasswordRequestForm = Depends(),
     session: AsyncSession = Depends(get_session),
 ):
-    logger.info(form_data)
     user_service = UserService(session)
     user = await user_service.get_user_by_username(form_data.username)
-    print(user)
     if not user or not Hash().verify_password(form_data.password, user.hashed_password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

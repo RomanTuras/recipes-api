@@ -10,8 +10,7 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from src.core.config import get_settings
 from src.dependencies.neon_db import get_session
-from src.domain.neon_models import User
-from src.domain.schemas.neon.user import UserResponse
+from src.domain.models.neon_models.user import User
 from src.domain.services.user_service import UserService
 
 

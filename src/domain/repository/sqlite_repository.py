@@ -3,11 +3,11 @@ from typing import List
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from src.domain.models.sqlite_models.table_main import TableMain
+from src.domain.models.sqlite_models.table_recipes import TableRecipe
+from src.domain.models.sqlite_models.table_sub_cat import TableSubCat
 from src.domain.schemas.neon.category import CategoryBase
 from src.domain.schemas.neon.recipe import RecipeBase
-from src.domain.sqlite_models.table_main import TableMain
-from src.domain.sqlite_models.table_recipes import TableRecipe
-from src.domain.sqlite_models.table_sub_cat import TableSubCat
 
 
 class SqliteRepository:

@@ -12,4 +12,4 @@ class MinimalBase(DeclarativeBase):
 class IDOrmModel(MinimalBase):
     __abstract__ = True
 
-    id: Mapped[int] = mapped_column(primary_key=True)
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)

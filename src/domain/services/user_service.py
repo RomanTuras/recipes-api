@@ -2,7 +2,7 @@ from pydantic import EmailStr
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.domain.neon_models import User
+from src.domain.models.neon_models.user import User
 from src.domain.repository.neon.user_repository import UserRepository
 from src.domain.schemas.neon.user import UserResponse, UserCreate
 

@@ -1,6 +1,6 @@
 from sqlalchemy import Integer, ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
-from src.domain.neon_models.base import MinimalBase
+from src.domain.models.neon_models.base import MinimalBase
 
 
 class RecipeIngredientLink(MinimalBase):

@@ -3,7 +3,7 @@
 from sqlalchemy import Column, String
 from sqlalchemy.orm import Mapped, mapped_column
 
-from src.domain.sqlite_models.base import MinimalBase
+from src.domain.models.sqlite_models.base import MinimalBase
 
 
 class TableMain(MinimalBase):

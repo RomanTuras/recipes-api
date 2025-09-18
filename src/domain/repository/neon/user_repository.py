@@ -3,7 +3,7 @@ from sqlmodel import select
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from src.domain.neon_models import User
+from src.domain.models.neon_models.user import User
 from src.domain.schemas.neon.user import UserResponse, UserCreate
 
 

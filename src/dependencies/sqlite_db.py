@@ -45,9 +45,6 @@ async def get_db():
         yield session
 
 
-
-
-
 # # src/db/session.py
 # import contextlib
 # from typing import AsyncGenerator
@@ -90,4 +87,3 @@ async def get_db():
 #     sessionmanager = DatabaseSessionManager(settings.DATABASE_URI)
 #     async with sessionmanager.session() as session:
 #         yield session
-
