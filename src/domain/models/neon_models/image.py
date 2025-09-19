@@ -1,15 +1,15 @@
-from sqlalchemy import String, ForeignKey, Integer, Index
+from sqlalchemy import Integer, String, ForeignKey, Index
 from sqlalchemy.orm import Mapped, mapped_column
 
 from src.domain.models.neon_models.base import IDOrmModel
 
 
-class Ingredient(IDOrmModel):
-    """Ingredient table, `local_id` - incoming from remote device"""
-    __tablename__ = "ingredient"
+class Image(IDOrmModel):
+    """Image table, `local_id` - incoming from remote device"""
+    __tablename__ = "image"
 
     local_id: Mapped[int] = mapped_column(Integer)
-    title: Mapped[str] = mapped_column(String(255))
+    name: Mapped[str] = mapped_column(String, nullable=False)
     recipe_local_id: Mapped[int] = mapped_column(Integer)
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("user.id"))
 

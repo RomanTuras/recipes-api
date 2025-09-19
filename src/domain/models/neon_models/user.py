@@ -1,4 +1,6 @@
-from sqlalchemy import String, Boolean, func
+from typing import Optional
+
+from sqlalchemy import String, Boolean, func, DateTime
 from sqlalchemy.orm import Mapped, mapped_column
 from datetime import datetime
 
@@ -14,3 +16,4 @@ class User(IDOrmModel):
     hashed_password: Mapped[str] = mapped_column(String)
     confirmed: Mapped[bool] = mapped_column(Boolean, default=False)
     created_at: Mapped[datetime] = mapped_column(nullable=False, default=func.now())
+    last_activity: Mapped[Optional[datetime]] = mapped_column(DateTime)
