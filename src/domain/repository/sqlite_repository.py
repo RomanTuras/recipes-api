@@ -37,7 +37,6 @@ class SqliteRepository:
                     local_id=row.id,
                     title=row.recipe_title.strip(),
                     text=row.recipe,
-                    image=row.image,
                     is_favorite=True if row.make == 1 else False,
                     category_local_id=row.category_id
                     if is_main_category
