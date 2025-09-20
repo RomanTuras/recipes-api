@@ -28,6 +28,10 @@ class Settings(BaseSettings):
     JWT_ALGORITHM: str | None = None
     JWT_EXPIRATION_SECONDS: float = 60 * 60 * 24 * 30
 
+    CLOUDINARY_NAME: str | None = None
+    CLOUDINARY_API_KEY: str | None = None
+    CLOUDINARY_API_SECRET: str | None = None
+
     # CORS
     ORIGINS: tuple[str, ...] = (
         "http://127.0.0.1:80",

@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from pydantic import BaseModel, ConfigDict
 from typing import Optional
 
@@ -8,6 +10,7 @@ class CategoryBase(BaseModel):
     parent_local_id: Optional[int] = None
     title: str
     user_id: int
+    updated_at: Optional[datetime] = None
 
 
 class CategoryResponse(CategoryBase):

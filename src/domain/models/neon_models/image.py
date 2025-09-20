@@ -6,14 +6,16 @@ from src.domain.models.neon_models.base import IDOrmModel
 
 class Image(IDOrmModel):
     """Image table, `local_id` - incoming from remote device"""
+
     __tablename__ = "image"
 
     local_id: Mapped[int] = mapped_column(Integer)
-    name: Mapped[str] = mapped_column(String, nullable=False)
+    url: Mapped[str] = mapped_column(String, nullable=False)
     recipe_local_id: Mapped[int] = mapped_column(Integer)
+    public_id: Mapped[str] = mapped_column(String, unique=True, index=True)
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("user.id"))
 
     __table_args__ = (
-        Index('idx_user_updated', 'user_id', 'updated_at'),
-        Index('idx_user_recipe_id', 'user_id', 'recipe_local_id'),
+        Index("idx_user_updated", "user_id", "updated_at"),
+        Index("idx_user_recipe_id", "user_id", "recipe_local_id"),
     )

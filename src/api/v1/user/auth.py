@@ -7,7 +7,6 @@ from src.domain.schemas.neon.user import UserCreate, Token, RequestEmail, UserRe
 from src.domain.services.auth import Hash, create_access_token, get_email_from_token
 from src.domain.services.user_service import UserService
 
-from src.core.app_logger import logger
 
 router = APIRouter(prefix="/auth", tags=["auth"])
 
@@ -43,7 +42,6 @@ async def register_user(
     #     send_email, new_user.email, new_user.username, request.base_url
     # )
     return new_user
-
 
 
 @router.post("/login", response_model=Token)
@@ -96,8 +94,15 @@ async def request_email(
     user_service = UserService(db)
     user = await user_service.get_user_by_email(body.email)
 
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="Verification error"
+        )
+
     if user.confirmed:
-        return {"message": "Email already confirmed"}
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail="Verification error"
+        )
     if user:
         pass
         # background_tasks.add_task(

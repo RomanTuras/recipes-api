@@ -1,4 +1,5 @@
 from typing import List
+from datetime import datetime
 
 from sqlalchemy import select, desc
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -16,6 +17,7 @@ class CategoryRepository:
     async def create_category(self, body: CategoryBase, user: UserResponse) -> Category:
         """Creating a new category"""
         category = Category(**body.model_dump(exclude_unset=True), user=user)
+        category.updated_at = datetime.now()
         self.session.add(category)
         await self.session.commit()
         await self.session.refresh(category)
@@ -27,6 +29,7 @@ class CategoryRepository:
         for item in body:
             data = item.model_dump(exclude_unset=True, exclude={"user_id"})
             data["user_id"] = user.id
+            data["updated_at"] = datetime.now()
             categories.append(Category(**data))
         self.session.add_all(categories)
         await self.session.commit()
