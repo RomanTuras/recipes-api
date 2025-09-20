@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from pydantic import BaseModel, ConfigDict
 from typing import Optional
 
@@ -12,6 +14,7 @@ class RecipeBase(BaseModel):
     cook_it: bool = False
     user_id: int
     category_local_id: Optional[int] = None
+    updated_at: Optional[datetime] = None
 
     # allows to create RecipeBase directly from Recipe ORM model, expl: RecipeBase.model_validate(Recipe)
     model_config = ConfigDict(from_attributes=True)

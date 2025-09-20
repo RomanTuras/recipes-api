@@ -7,6 +7,7 @@ from src.domain.models.neon_models.base import IDOrmModel
 
 class Recipe(IDOrmModel):
     """Recipe table, `local_id` - incoming from remote device"""
+
     __tablename__ = "recipe"
 
     local_id: Mapped[int] = mapped_column(Integer)
@@ -18,6 +19,4 @@ class Recipe(IDOrmModel):
     category_local_id: Mapped[Optional[int]] = mapped_column(Integer)
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("user.id"))
 
-    __table_args__ = (
-        Index('idx_user_updated', 'user_id', 'updated_at'),
-    )
+    __table_args__ = (Index("idx_user_updated", "user_id", "updated_at"),)

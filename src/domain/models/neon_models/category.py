@@ -11,6 +11,7 @@ from sqlalchemy.orm import (
 
 class Category(IDOrmModel):
     """Category table, `local_id` - incoming from remote device"""
+
     __tablename__ = "category"
 
     local_id: Mapped[int] = mapped_column(Integer, index=True)
@@ -18,6 +19,4 @@ class Category(IDOrmModel):
     parent_local_id: Mapped[Optional[int]] = mapped_column(Integer)
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("user.id"))
 
-    __table_args__ = (
-        Index('idx_user_updated', 'user_id', 'updated_at'),
-    )
+    __table_args__ = (Index("idx_user_updated", "user_id", "updated_at"),)

@@ -9,6 +9,7 @@ from src.domain.models.neon_models.base import IDOrmModel
 
 class User(IDOrmModel):
     """User table"""
+
     __tablename__ = "user"
 
     username: Mapped[str] = mapped_column(String(100), unique=True, index=True)

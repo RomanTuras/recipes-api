@@ -1,4 +1,5 @@
 from typing import List
+from datetime import datetime
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -17,6 +18,7 @@ class RecipeRepository:
         for item in body:
             data = item.model_dump(exclude_unset=True, exclude={"user_id"})
             data["user_id"] = user.id
+            data["updated_at"] = datetime.now()
             recipes.append(Recipe(**data))
         self.session.add_all(recipes)
         return f"Inserted {len(body)} recipes"
