@@ -11,10 +11,6 @@ class Ingredient(IDOrmModel):
 
     local_id: Mapped[int] = mapped_column(Integer)
     title: Mapped[str] = mapped_column(String(255))
-    recipe_local_id: Mapped[int] = mapped_column(Integer)
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("user.id"))
 
-    __table_args__ = (
-        Index("idx_user_updated", "user_id", "updated_at"),
-        Index("idx_user_recipe_id", "user_id", "recipe_local_id"),
-    )
+    __table_args__ = (Index("idx_ingredient_user_updated", "user_id", "updated_at"),)

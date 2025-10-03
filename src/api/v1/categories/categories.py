@@ -8,8 +8,9 @@ from src.core.config import get_settings
 from src.dependencies.neon_db import get_session
 from src.dependencies.sqlite_db import get_db
 from src.domain.models.neon_models.user import User
+from src.domain.repository.neon.category_repository import CategoryRepository
 from src.domain.repository.neon.recipe_repository import RecipeRepository
-from src.domain.schemas.neon.category import CategoryResponse
+from src.domain.schemas.neon.category import CategoryBase
 from src.domain.services.auth import get_current_user
 from src.domain.services.category_service import CategoryService
 from src.core.app_logger import logger
@@ -19,14 +20,24 @@ router = APIRouter(prefix="/categories", tags=["categories"])
 settings = get_settings()
 
 
-@router.get("/", response_model=List[CategoryResponse], status_code=status.HTTP_200_OK)
+@router.get("/{local_id}", response_model=CategoryBase, status_code=status.HTTP_200_OK)
+async def get_category_by_id(
+    local_id: int,
+    user: User = Depends(get_current_user),
+    session: AsyncSession = Depends(get_session),
+):
+    category_repo = CategoryRepository(session)
+    return await category_repo.get_category(local_id=local_id, user=user)
+
+
+@router.get("/", response_model=List[CategoryBase], status_code=status.HTTP_200_OK)
 async def get_user_categories(
     user: User = Depends(get_current_user),
     session: AsyncSession = Depends(get_session),
 ):
     """Getting all user's categories"""
     category_service = CategoryService(session)
-    return await category_service.get_user_categories(user.id)
+    return await category_service.get_categories(user.id)
 
 
 @router.get("/migrate", status_code=status.HTTP_201_CREATED)

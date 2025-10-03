@@ -12,8 +12,7 @@ class ImageBase(BaseModel):
     public_id: Optional[str] = None
     user_id: int
     updated_at: Optional[datetime] = None
+    is_delete: Optional[bool] = None
 
-
-class ImageResponse(ImageBase):
-    # allows to create ImageResponse directly from Image ORM model, expl: ImageResponse.model_validate(Image)
+    # allows to create ImageBase directly from Image ORM model, expl: ImageBase.model_validate(Image)
     model_config = ConfigDict(from_attributes=True, str_strip_whitespace=True)
