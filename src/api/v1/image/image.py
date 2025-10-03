@@ -4,7 +4,7 @@ from starlette import status
 
 from src.dependencies.neon_db import get_session
 from src.domain.models.neon_models import User
-from src.domain.schemas.neon.image import ImageResponse
+from src.domain.schemas.neon.image import ImageBase
 from src.domain.services.auth import get_current_user
 from src.domain.services.cloudinary_service import CloudinaryService
 from src.domain.services.image_service import ImageService
@@ -14,7 +14,7 @@ router = APIRouter(prefix="/image", tags=["image"])
 cloudinary_service = CloudinaryService()
 
 
-@router.post("/", response_model=ImageResponse, status_code=status.HTTP_200_OK)
+@router.post("/", response_model=ImageBase, status_code=status.HTTP_200_OK)
 async def upload_image(
     local_id: int = Form(),
     recipe_local_id: int = Form(),
@@ -38,7 +38,7 @@ async def upload_image(
             detail=f"Cloudinary error. {e}",
         )
 
-    image_data = ImageResponse(
+    image_data = ImageBase(
         local_id=local_id,
         recipe_local_id=recipe_local_id,
         url=response.get("url"),

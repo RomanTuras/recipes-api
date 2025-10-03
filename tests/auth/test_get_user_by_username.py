@@ -19,7 +19,7 @@ async def mock_user_repository():
 @pytest.mark.asyncio
 async def test_get_user_by_username_returns_user(mock_user_repository):
     # Arrange
-    service = UserService.__new__(UserService)  # створюємо без виклику __init__
+    service = UserService.__new__(UserService)  # create without call __init__
     service.user_repository = mock_user_repository
 
     # Act

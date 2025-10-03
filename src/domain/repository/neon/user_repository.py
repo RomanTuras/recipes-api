@@ -39,7 +39,7 @@ class UserRepository:
         )
         self.session.add(user)
         await self.session.commit()
-        await self.session.refresh(user)
+        # await self.session.refresh(user)
         return user
 
     async def confirmed_email(self, email: EmailStr) -> User | None:
@@ -51,5 +51,5 @@ class UserRepository:
         user.confirmed = True
         user.updated_at = datetime.now()
         await self.session.commit()
-        await self.session.refresh(user)
+        # await self.session.refresh(user)
         return user

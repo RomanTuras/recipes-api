@@ -7,6 +7,7 @@ from sqlalchemy.ext.asyncio import create_async_engine, async_sessionmaker, Asyn
 
 from src.core.config import get_settings
 from src.core.app_logger import logger
+from sqlalchemy.pool import AsyncAdaptedQueuePool
 
 
 settings = get_settings()
@@ -23,7 +24,13 @@ if settings.IS_LOCAL_MODE is False:
 async_engine = create_async_engine(
     connection_string,
     echo=True,
-    poolclass=NullPool,
+    pool_size=5,        # мінімум з'єднань у пулі
+    max_overflow=10,    # скільки додаткових можна відкрити при навантаженні
+    pool_timeout=30,    # чекати перед помилкою, якщо всі зайняті
+    pool_recycle=1800,  # пересоздавати з'єднання раз на 30 хв (корисно для Neon)
+    pool_pre_ping=True, # перевірка "живе" з'єднання перед видачею з пулу
+    poolclass=AsyncAdaptedQueuePool,
+    # poolclass=NullPool,
 )
 
 # Session factory

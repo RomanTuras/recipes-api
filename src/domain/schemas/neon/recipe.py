@@ -15,6 +15,7 @@ class RecipeBase(BaseModel):
     user_id: int
     category_local_id: Optional[int] = None
     updated_at: Optional[datetime] = None
+    is_delete: Optional[bool] = None
 
     # allows to create RecipeBase directly from Recipe ORM model, expl: RecipeBase.model_validate(Recipe)
-    model_config = ConfigDict(from_attributes=True)
+    model_config = ConfigDict(from_attributes=True, str_strip_whitespace=True)

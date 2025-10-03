@@ -11,8 +11,7 @@ class CategoryBase(BaseModel):
     title: str
     user_id: int
     updated_at: Optional[datetime] = None
+    is_delete: Optional[bool] = None
 
-
-class CategoryResponse(CategoryBase):
-    # allows to create CategoryResponse directly from Category ORM model, expl: CategoryResponse.model_validate(Category)
+    # allows to create CategoryBase directly from Category ORM model, expl: CategoryBase.model_validate(Category)
     model_config = ConfigDict(from_attributes=True, str_strip_whitespace=True)

@@ -19,4 +19,4 @@ class Category(IDOrmModel):
     parent_local_id: Mapped[Optional[int]] = mapped_column(Integer)
     user_id: Mapped[int] = mapped_column(Integer, ForeignKey("user.id"))
 
-    __table_args__ = (Index("idx_user_updated", "user_id", "updated_at"),)
+    __table_args__ = (Index("idx_category_user_updated", "user_id", "updated_at"),)
